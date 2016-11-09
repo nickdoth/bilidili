@@ -4,8 +4,8 @@ function silly() {
 
 var cacheKey = 'cache:' + location.href;
 silly('Using cacheKey:', cacheKey);
-if (location.hostname === 'player.xcmh.cc') {
-    
+silly(location.protocol);
+if (location.hostname === 'player.xcmh.cc' || location.protocol === 'file:') {
     silly('Getting URL...');
     chrome.storage.local.get(cacheKey, (items) => {
         var url = items[cacheKey] || prompt('Input URL:');

@@ -56,7 +56,7 @@ function parseLrcLine(node) {
     };
 }
 
-},{"../music/Lyric":3}],2:[function(require,module,exports){
+},{"../music/Lyric":4}],2:[function(require,module,exports){
 (function (__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -108,7 +108,7 @@ var DanmakuViewer = (function (_super) {
         configurable: true
     });
     DanmakuViewer.prototype.init = function () {
-        this.rollingDuration = 4800;
+        this.rollingDuration = 8000;
         this.mainLoop();
     };
     DanmakuViewer.prototype.update = function (matches, timeLine) {
@@ -295,8 +295,81 @@ function range(from, to) {
     return ret;
 }
 
-}).call(this,"/danmaku\\viewer.js","/danmaku")
-},{"events":6}],3:[function(require,module,exports){
+}).call(this,"/danmaku/viewer.js","/danmaku")
+},{"events":7}],3:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var events_1 = require('events');
+var HTMLMedia = (function (_super) {
+    __extends(HTMLMedia, _super);
+    function HTMLMedia(elementOrType) {
+        var _this = this;
+        _super.call(this);
+        if (!elementOrType) {
+            elementOrType = 'audio';
+        }
+        if (typeof elementOrType === 'string') {
+            var element = this.element = document.createElement(elementOrType);
+            document.body.appendChild(element);
+        }
+        else {
+            var element = this.element = elementOrType;
+        }
+        element.onplay = function (e) { return _this.emit('play', e); };
+        element.onpause = function (e) { return _this.emit('pause', e); };
+        element.ontimeupdate = function (e) { return _this.emit('timeupdate', _this.element.currentTime); };
+        element.onended = function (e) { return _this.emit('ended', e); };
+        element.onseeked = function (e) { return _this.emit('seeked', e); };
+    }
+    HTMLMedia.prototype.load = function (url) {
+        this.element.src = url;
+        return this.element.load();
+    };
+    HTMLMedia.prototype.getUrl = function () {
+        return this.element.src;
+    };
+    HTMLMedia.prototype.play = function () {
+        return this.element.play();
+    };
+    HTMLMedia.prototype.pause = function () {
+        return this.element.pause();
+    };
+    HTMLMedia.prototype.setCurrentTime = function (time) {
+        this.element.currentTime = time;
+    };
+    HTMLMedia.prototype.getCurrentTime = function () {
+        return this.element.currentTime;
+    };
+    HTMLMedia.prototype.getDuration = function () {
+        return this.element.duration;
+    };
+    HTMLMedia.prototype.setLoop = function (bool) {
+        return this.element.loop = bool;
+    };
+    HTMLMedia.prototype.isPaused = function () {
+        return this.element.paused;
+    };
+    HTMLMedia.prototype.isPlaying = function () {
+        return !this.element.paused;
+    };
+    HTMLMedia.prototype.isLoop = function () {
+        return this.element.loop;
+    };
+    HTMLMedia.prototype.isEnded = function () {
+        return this.element.ended;
+    };
+    HTMLMedia.prototype.isLoaded = function () {
+        return true;
+    };
+    return HTMLMedia;
+}(events_1.EventEmitter));
+exports.HTMLMedia = HTMLMedia;
+
+},{"events":7}],4:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -400,7 +473,7 @@ function TimeLine() {
 }
 exports.TimeLine = TimeLine;
 
-},{"events":6}],4:[function(require,module,exports){
+},{"events":7}],5:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -473,38 +546,46 @@ var CkPlayerWrapperMedia = (function (_super) {
 }(events_1.EventEmitter));
 exports.CkPlayerWrapperMedia = CkPlayerWrapperMedia;
 
-},{"events":6}],5:[function(require,module,exports){
+},{"events":7}],6:[function(require,module,exports){
 "use strict";
 var Lyric_1 = require('./music/Lyric');
 var bilibili_1 = require('./danmaku/bilibili');
 var viewer_1 = require('./danmaku/viewer');
+var HTMLMedia_1 = require('./media/HTMLMedia');
 var skplayer_1 = require('./skplayer');
-function danmaku(text) {
-    var audio = new skplayer_1.CkPlayerWrapperMedia('ckplayer_a1');
-    var lrc = new Lyric_1.Lyric(audio, bilibili_1.BilibiliDanmakuDocument, text);
-    var dmv = window.dmv = new viewer_1.DanmakuViewer(audio);
+function danmaku(media, text) {
+    var lrc = new Lyric_1.Lyric(media, bilibili_1.BilibiliDanmakuDocument, text);
+    var dmv = window.dmv = new viewer_1.DanmakuViewer(media);
     lrc.addView(dmv);
     dmv.init();
 }
+function loadAndPlay(media) {
+    window.addEventListener('bdctrl-restext', function (evt) {
+        danmaku(media, document.getElementById('restext').innerHTML);
+    });
+    window.dispatchEvent(new Event('bdcore-ready'));
+}
 var pending;
-(function waitReady() {
+(function waitPlayerReady() {
     if (typeof CKobject === 'object' && CKobject.getObjectById('ckplayer_a1').addListener) {
         clearTimeout(pending);
         setInterval(function () {
             document.querySelector('object').setAttribute('height', window.innerHeight + '');
             CKobject.getObjectById('ckplayer_a1').setAttribute('height', window.innerHeight);
         }, 1200);
-        window.addEventListener('bdctrl-restext', function (evt) {
-            danmaku(document.getElementById('restext').innerHTML);
-        });
-        window.dispatchEvent(new Event('bdcore-ready'));
+        loadAndPlay(new skplayer_1.CkPlayerWrapperMedia('ckplayer_a1'));
         return;
     }
-    pending = setTimeout(waitReady, 300);
+    else if (document.querySelector('video') !== null) {
+        clearTimeout(pending);
+        loadAndPlay(new HTMLMedia_1.HTMLMedia(document.querySelector('video')));
+        return;
+    }
+    pending = setTimeout(waitPlayerReady, 300);
 })();
 window.danmaku = danmaku;
 
-},{"./danmaku/bilibili":1,"./danmaku/viewer":2,"./music/Lyric":3,"./skplayer":4}],6:[function(require,module,exports){
+},{"./danmaku/bilibili":1,"./danmaku/viewer":2,"./media/HTMLMedia":3,"./music/Lyric":4,"./skplayer":5}],7:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -564,8 +645,12 @@ EventEmitter.prototype.emit = function(type) {
       er = arguments[1];
       if (er instanceof Error) {
         throw er; // Unhandled 'error' event
+      } else {
+        // At least give some kind of context to the user
+        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+        err.context = er;
+        throw err;
       }
-      throw TypeError('Uncaught, unspecified "error" event.');
     }
   }
 
@@ -588,18 +673,11 @@ EventEmitter.prototype.emit = function(type) {
         break;
       // slower
       default:
-        len = arguments.length;
-        args = new Array(len - 1);
-        for (i = 1; i < len; i++)
-          args[i - 1] = arguments[i];
+        args = Array.prototype.slice.call(arguments, 1);
         handler.apply(this, args);
     }
   } else if (isObject(handler)) {
-    len = arguments.length;
-    args = new Array(len - 1);
-    for (i = 1; i < len; i++)
-      args[i - 1] = arguments[i];
-
+    args = Array.prototype.slice.call(arguments, 1);
     listeners = handler.slice();
     len = listeners.length;
     for (i = 0; i < len; i++)
@@ -637,7 +715,6 @@ EventEmitter.prototype.addListener = function(type, listener) {
 
   // Check for listener leak
   if (isObject(this._events[type]) && !this._events[type].warned) {
-    var m;
     if (!isUndefined(this._maxListeners)) {
       m = this._maxListeners;
     } else {
@@ -759,7 +836,7 @@ EventEmitter.prototype.removeAllListeners = function(type) {
 
   if (isFunction(listeners)) {
     this.removeListener(type, listeners);
-  } else {
+  } else if (listeners) {
     // LIFO order
     while (listeners.length)
       this.removeListener(type, listeners[listeners.length - 1]);
@@ -780,15 +857,20 @@ EventEmitter.prototype.listeners = function(type) {
   return ret;
 };
 
+EventEmitter.prototype.listenerCount = function(type) {
+  if (this._events) {
+    var evlistener = this._events[type];
+
+    if (isFunction(evlistener))
+      return 1;
+    else if (evlistener)
+      return evlistener.length;
+  }
+  return 0;
+};
+
 EventEmitter.listenerCount = function(emitter, type) {
-  var ret;
-  if (!emitter._events || !emitter._events[type])
-    ret = 0;
-  else if (isFunction(emitter._events[type]))
-    ret = 1;
-  else
-    ret = emitter._events[type].length;
-  return ret;
+  return emitter.listenerCount(type);
 };
 
 function isFunction(arg) {
@@ -807,4 +889,4 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}]},{},[5]);
+},{}]},{},[6]);

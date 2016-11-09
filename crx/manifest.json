@@ -18,6 +18,7 @@
 		"http://*.dilidili.com/watch*",
 		"https://player.xcmh.cc:60000/?vid=*",
 		"http://www.bilibilijj.com/*",
+		"file://*/*.mp4",
 		"notifications",
 		"storage",
 		"webRequest",
@@ -28,7 +29,8 @@
 		{
 			"matches": [
 				"http://*/*",
-				"https://*/*"
+				"https://*/*",
+				"file://*/*.mp4"
 			],
 			"js": [
 				"content-scripts/bilidili-control.js"

@@ -73,7 +73,7 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
     }
 
     init() {
-        this.rollingDuration = 4800;
+        this.rollingDuration = 8000;
         this.mainLoop();
     }
 
