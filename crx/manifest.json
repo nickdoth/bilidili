@@ -1,0 +1,51 @@
+{
+	"name": "bilidili",
+	"version": "0.0.2",
+	"manifest_version": 2,
+	"description": "Bilidili",
+	"icons": {
+		"16": "images/icon-16.png",
+		"128": "images/icon-128.png"
+	},
+	"default_locale": "en",
+	"background": {
+		"scripts": [
+			"scripts/background.js"
+		]
+	},
+	"permissions": [
+		"tabs",
+		"http://*.dilidili.com/watch*",
+		"https://player.xcmh.cc:60000/?vid=*",
+		"http://www.bilibilijj.com/*",
+		"notifications",
+		"storage",
+		"webRequest",
+		"*://*.google.com/",
+		"webRequestBlocking"
+	],
+	"content_scripts": [
+		{
+			"matches": [
+				"http://*/*",
+				"https://*/*"
+			],
+			"js": [
+				"content-scripts/bilidili-control.js"
+			],
+			"run_at": "document_end",
+			"all_frames": true
+		}
+	],
+	"page_action": {
+		"default_icon": {
+			"19": "images/icon-19.png",
+			"38": "images/icon-38.png"
+		},
+		"default_title": "Bilidili is active"
+	},
+	"web_accessible_resources": [
+		"images/icon-48.png",
+		"content-scripts/bilidili-core.js"
+	]
+}

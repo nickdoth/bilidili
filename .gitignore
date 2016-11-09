@@ -1,0 +1,4 @@
+core/lib
+crx/content-scripts/bilidili-core.js
+built.js
+built.user.js

@@ -1,0 +1,10 @@
+// ==UserScript==
+// @name        Dilidili Danmaku Support Client
+// @namespace   nickdoth.cc
+// @include     https://player.xcmh.cc:60000/?vid=*
+// @version     1.3
+// ==/UserScript==
+(function() {
+var window = unsafeWindow;
+var document = window.document;
+
