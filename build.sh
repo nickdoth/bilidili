@@ -8,7 +8,7 @@ pushd core/lib
 popd
 
 cat userscript.txt > built.user.js
-cat built.js >> built.user.js
+cat core/built.js >> built.user.js
 cat foot.txt >> built.user.js
 
 cp core/built.js ./crx/content-scripts/bilidili-core.js

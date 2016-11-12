@@ -1,4 +1,7 @@
 core/lib
+core/built.js
 crx/content-scripts/bilidili-core.js
 built.js
 built.user.js
+*.DS_Store
+.DS_Store
