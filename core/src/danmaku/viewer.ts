@@ -4,7 +4,21 @@ import { Danmaku } from './bilibili';
 import { Media } from '../media/media';
 import { EventEmitter } from 'events';
 
-console.log(__dirname, __filename);
+var SILLY = false;
+
+function silly(...args: any[]) {
+    SILLY && console.log(args.shift(), ...args);
+}
+
+function debugTime(str) {
+    SILLY && console.time(str);
+}
+
+function debugTimeEnd(str) {
+    SILLY && console.timeEnd(str);
+}
+
+silly(__dirname, __filename);
 
 var devicePixelRatio = 1; // forcing
 
@@ -78,9 +92,9 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
     }
 
     update(matches: number[], timeLine: TimeLine<Danmaku>) {
-        // console.log('matchesLength:', matches.length);
+        // silly('matchesLength:', matches.length);
         for (let i = 0; i < matches.length; i++) {
-            // console.log('%c' + readableTime(timeLine[matches[i]].time), 'color: #888;',
+            // silly('%c' + readableTime(timeLine[matches[i]].time), 'color: #888;',
             //     timeLine[matches[i]].data.content);
             let dm = timeLine[matches[i]].data;
             let left = this.screenWidth;
@@ -104,7 +118,7 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
     private maxRow = 13;
     private rowBlocked: boolean[] = [];
     dTop() {
-        console.time('dTop');
+        debugTime('dTop');
         let lineHeight = this.defaultFontSize * 2 + 2;
 
         let top: number;
@@ -124,26 +138,26 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
             // 该算法效率不稳定，正在试图替代
             var maxLeft = Math.max(...this.viewList.filter(n => n.top === top)
                 .map(n => n.width + n.left));
-            console.log(top, maxLeft);
+            silly(top, maxLeft);
             if (maxLeft < this.screenWidth - 15) {
                 break;
             }
             else {
-                console.log('向其它行查找空余空间');
+                silly('向其它行查找空余空间');
             }
 
             // var match1 = this.viewList.filter(n =>
             //         n.width + n.left < this.screenWidth - 15)
             //     .map(n => n.top);
 
-            // console.log(match1);
+            // silly(match1);
 
             // break;
         }
         
         if (this.row === this.maxRow * 2) this.row = 1;
 
-        console.timeEnd('dTop');
+        debugTimeEnd('dTop');
         return top;
     }
     
@@ -301,7 +315,7 @@ class DanmakuDOM {
             n.attachData.style.textShadow = '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black';
             n.attachData.style.whiteSpace = 'nowrap';
 
-            console.log(n.node.content, n.attachData);
+            silly(n.node.content, n.attachData);
             document.body.appendChild(n.attachData);
             var offsetWidth = n.attachData.offsetWidth;
             n.attachData.style.left = '-9999px';
