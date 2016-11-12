@@ -21,11 +21,27 @@
 //     console.log('previousVersion', details.previousVersion);
 // });
 
-chrome.tabs.onUpdated.addListener(function (tabId) {
-    chrome.pageAction.show(tabId);
-});
+var matches = [
+    /http:\/\/(.*)\.dilidili\.com\/watch(.*)/,
+	/file:\/\/(.*)\/(.*)\.mp4/
+];
 
-console.log('\'Allo \'Allo! Event Page for Page Action');
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (matches.some(m => m.test(tab.url))) {
+        chrome.pageAction.show(tabId);
+        chrome.pageAction.setTitle({
+            tabId: tabId,
+            title: 'Bilidili is active on this page'
+        });
+    }
+    else {
+        chrome.pageAction.hide(tabId);
+        chrome.pageAction.setTitle({
+            tabId: tabId,
+            title: 'Bilidili is not active on this page'
+        });
+    }
+});
 
 chrome.runtime.onMessage.addListener(function (msg, sender, sendRes) {
     console.log('getdanmaku');
