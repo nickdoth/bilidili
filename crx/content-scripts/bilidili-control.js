@@ -22,16 +22,23 @@ if (location.hostname === DILI_PLAYER || location.protocol === 'file:') {
                 silly('Error while fetch danmaku file, halt');
                 return;
             }
-            window.addEventListener('bdcore-ready', () => {
-                var evt = new Event('bdctrl-restext');
-                evt.text = responseText;
-                var s = document.createElement('script');
-                s.setAttribute('type', 'text/xml');
-                s.id = 'restext';
-                s.innerHTML = responseText;
-                document.body.appendChild(s);
-                window.dispatchEvent(evt);
-            });
+            // window.addEventListener('bdcore-ready', () => {
+            //     var evt = new Event('bdctrl-restext');
+            //     evt.text = responseText;
+            //     var s = document.createElement('script');
+            //     s.setAttribute('type', 'text/xml');
+            //     s.id = 'restext';
+            //     s.innerHTML = responseText;
+            //     document.body.appendChild(s);
+            //     window.dispatchEvent(evt);
+            // });
+
+            window.addEventListener('message', (ev) => {
+                if (ev.origin !== location.hostname && location.hostname !== '') return;
+                ev.data && ev.data.requestDanmaku && ev.source.postMessage({
+                    responseDanmaku: responseText
+                }, location.hostname || '*');
+            })
 
             injectScript(chrome.extension.getURL('/content-scripts/bilidili-core.js'), 'body');
         })
