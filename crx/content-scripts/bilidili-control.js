@@ -22,16 +22,6 @@ if (location.hostname === DILI_PLAYER || location.protocol === 'file:') {
                 silly('Error while fetch danmaku file, halt');
                 return;
             }
-            // window.addEventListener('bdcore-ready', () => {
-            //     var evt = new Event('bdctrl-restext');
-            //     evt.text = responseText;
-            //     var s = document.createElement('script');
-            //     s.setAttribute('type', 'text/xml');
-            //     s.id = 'restext';
-            //     s.innerHTML = responseText;
-            //     document.body.appendChild(s);
-            //     window.dispatchEvent(evt);
-            // });
 
             window.addEventListener('message', (ev) => {
                 if (ev.origin !== location.hostname && location.hostname !== '') return;
@@ -55,7 +45,6 @@ else if (location.hostname === 'www.dilidili.com') {
     silly('getKeyByVid(document.getElementById(\'player_iframe\').src', cacheKey)
     chrome.storage.local.get(cacheKey, (items) => {
         var url = items[cacheKey];
-        // silly('if (url) toolbar.innerHTML = Toolbar({ url: url })', url);
         if (url) toolbar.innerHTML = Toolbar({ url: url });
     });
 }
