@@ -24,10 +24,10 @@ if (location.hostname === DILI_PLAYER || location.protocol === 'file:') {
             }
 
             window.addEventListener('message', (ev) => {
-                if (ev.origin !== location.hostname && location.hostname !== '') return;
+                if (ev.origin !== location.origin && location.origin !== '') return;
                 ev.data && ev.data.requestDanmaku && ev.source.postMessage({
                     responseDanmaku: responseText
-                }, location.hostname || '*');
+                }, location.origin || '*');
             })
 
             injectScript(chrome.extension.getURL('/content-scripts/bilidili-core.js'), 'body');

@@ -3,7 +3,7 @@ import { ILyricViewer, TimeLine } from '../music/Lyric';
 import { Danmaku } from './bilibili';
 import { Media } from '../media/media';
 import { EventEmitter } from 'events';
-
+import styles from '../styles';
 var SILLY = false;
 
 function silly(...args: any[]) {
@@ -55,18 +55,13 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
     /** */
     private viewList: RollingNode<any>[] = [];
     /** */
-    private rollingSpeed: number;
-    /** */
-    private _rollingDuration: number; // ms
+    public rollingDuration: number; // ms
     /** */
     defaultFontSize = 19 * devicePixelRatio;
     /** */
-    get rollingDuration() {
-        return this._rollingDuration;
-    }
-    set rollingDuration(val: number) {
-        this._rollingDuration = val;
-        this.rollingSpeed = devicePixelRatio * this.screenWidth / this._rollingDuration; // pixels per microsecond
+
+    get rollingSpeed() {
+        return devicePixelRatio * this.screenWidth / this.rollingDuration; // pixels per microsecond
     }
 
     get screenWidth() {
@@ -87,7 +82,7 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
     }
 
     init() {
-        this.rollingDuration = 8000;
+        // this.rollingDuration = 8000;
         this.mainLoop();
     }
 
@@ -270,7 +265,7 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
             if (doRealRender) {
                 cd.render(this.viewList);
             }
-            doRealRender = !doRealRender;
+            // doRealRender = !doRealRender;
             requestAnimationFrame(handler);
             
         });
@@ -297,6 +292,12 @@ function readableTime(sec: number) {
 
 
 class DanmakuDOM {
+    public rootEl: HTMLDivElement = null;
+    constructor() {
+        this.rootEl = document.createElement('div');
+        document.body.appendChild(this.rootEl);
+    }
+
     setSize(x: number, y: number) {
 
     }
@@ -309,14 +310,10 @@ class DanmakuDOM {
             n.attachData.style.color = `rgb(${color(n.node.color).join(',')})`;
             n.attachData.style.fontSize = n.fontSize + 'px';
 
-            n.attachData.style.position = 'fixed';
-            n.attachData.style.zIndex = '1900';
-            n.attachData.style.fontWeight = 'bolder';
-            n.attachData.style.textShadow = '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black';
-            n.attachData.style.whiteSpace = 'nowrap';
+            n.attachData.className = styles.danmaku;
 
             silly(n.node.content, n.attachData);
-            document.body.appendChild(n.attachData);
+            this.rootEl.appendChild(n.attachData);
             var offsetWidth = n.attachData.offsetWidth;
             n.attachData.style.left = '-9999px';
             n.attachData.style.width = offsetWidth + 'px';
@@ -329,7 +326,7 @@ class DanmakuDOM {
     }
 
     removeState(n: RollingNode<HTMLSpanElement>) {
-        document.body.removeChild(n.attachData);
+        this.rootEl.removeChild(n.attachData);
     }
 
     render(viewList: RollingNode<HTMLSpanElement>[]) {

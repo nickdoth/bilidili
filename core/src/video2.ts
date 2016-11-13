@@ -7,11 +7,12 @@ import { HTMLMedia } from './media/HTMLMedia';
 import { CkPlayerWrapperMedia } from './skplayer';
 // import { xml } from './lrc.xml';
 // GM_xmlhttpRequest;
+import config from './config';
 
 function danmaku(media: Media, text: string) {
 	
 	var lrc = new Lyric(media, BilibiliDanmakuDocument, text);
-	var dmv = (<any>window).dmv = new DanmakuViewer(media);
+	var dmv = (<any>window).dmv = config(new DanmakuViewer(media), 'danmakuViewer');
 
 	lrc.addView(dmv);
 	dmv.init();
@@ -21,7 +22,7 @@ function getDanmakuText() {
 	return new Promise<string>((resolve, reject) => {
 		var inTime = timeout(reject, 15000);
 		window.addEventListener('message', (ev) => {
-			if (ev.origin !== location.hostname && location.hostname !== '') return;
+			if (ev.origin !== location.origin && location.origin !== '') return;
 			var msg = ev.data;
 			if (msg.responseDanmaku) {
 				inTime();
@@ -29,7 +30,7 @@ function getDanmakuText() {
 			}
 		});
 
-		window.postMessage({ requestDanmaku: true }, location.hostname || '*');
+		window.postMessage({ requestDanmaku: true }, location.origin || '*');
 	});
 }
 
