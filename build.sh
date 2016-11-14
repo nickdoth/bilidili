@@ -1,6 +1,6 @@
 #!/bin/bash
 pushd core/src
-  tsc -t es5  --removeComments --outDir ../lib -m commonjs video2.ts
+  tsc -t es5  --removeComments --lib es6,dom --outDir ../lib -m commonjs video2.ts
 popd
 
 pushd core/lib
