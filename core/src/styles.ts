@@ -1,6 +1,7 @@
 export var stylesheet = {
     danmaku: {
-        
+        'position': 'fixed',
+        'z-index': '1900',
         'font-weight': 'bolder',
         'text-shadow': '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
         'white-space': 'nowrap',
@@ -12,7 +13,7 @@ export var stylesheet = {
         }
     },
 
-    fpsViewer: {
+    fpsNode: {
         'position': 'fixed',
         'z-index': '1500',
         'top': '5px',
