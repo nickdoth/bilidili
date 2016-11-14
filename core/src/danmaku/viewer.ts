@@ -59,7 +59,7 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
     /** */
     defaultFontSize = 19 * devicePixelRatio;
     /** */
-
+    public showFps: boolean = false;
     get rollingSpeed() {
         return devicePixelRatio * this.screenWidth / this.rollingDuration; // pixels per microsecond
     }
@@ -202,11 +202,13 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
         var last = performance.now(),
             now = 0,
             mspf = 0; // microseconds per frame
-        // var fpsNode = <HTMLSpanElement> document.getElementById('play-area').appendChild(
-        //     document.createElement('span'));
-        // fpsNode.style.top = fpsNode.style.right = '5px';
-        // fpsNode.style.zIndex = '500';
-
+        // FPS Viewer
+        if (this.showFps) {
+            var fpsNode = <HTMLSpanElement> document.body.appendChild(
+                document.createElement('span'));
+            fpsNode.style.top = fpsNode.style.right = '5px';
+            fpsNode.style.zIndex = '500';
+        }
         var handler: FrameRequestCallback;
         var doRealRender = true;
         requestAnimationFrame(handler = (time) => {
@@ -272,7 +274,9 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
 
         setInterval(_ => {
             requestAnimationFrame(t => {
-                // fpsNode.innerHTML = (1000 / mspf).toFixed(1) + 'fps';
+                if (this.showFps) {
+                    fpsNode.innerHTML = (1000 / mspf).toFixed(1) + 'fps';
+                }
             });
         }, 400);
     }
