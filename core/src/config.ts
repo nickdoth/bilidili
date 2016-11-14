@@ -2,7 +2,8 @@ export var config = {
     'danmakuViewer': {
         renderClass: 'DanmakuDOM',
         rollingDuration: 8000,
-        defaultFontSize: 25
+        defaultFontSize: 25,
+        showFps: true
     }
 }
 

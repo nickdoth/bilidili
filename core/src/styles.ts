@@ -1,7 +1,6 @@
 export var stylesheet = {
     danmaku: {
-        'position': 'fixed',
-        'z-index': '1900',
+        
         'font-weight': 'bolder',
         'text-shadow': '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
         'white-space': 'nowrap',
@@ -11,6 +10,14 @@ export var stylesheet = {
         ':hover': {
             'border': '1px solid #fff'
         }
+    },
+
+    fpsViewer: {
+        'position': 'fixed',
+        'z-index': '1500',
+        'top': '5px',
+        'right': '5px',
+        'color': '#fff'
     }
 }
 

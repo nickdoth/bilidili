@@ -206,8 +206,7 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
         if (this.showFps) {
             var fpsNode = <HTMLSpanElement> document.body.appendChild(
                 document.createElement('span'));
-            fpsNode.style.top = fpsNode.style.right = '5px';
-            fpsNode.style.zIndex = '500';
+            fpsNode.className = styles.fpsNode;
         }
         var handler: FrameRequestCallback;
         var doRealRender = true;
