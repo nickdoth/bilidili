@@ -2,6 +2,36 @@ function silly() {
     console.log.apply(console, arguments);
 }
 
+var PageAgent = {
+	onMessage(listener) {
+		if (location.protocol === 'file:') {
+			window.addEventListener('lo-message', (ev) => {
+				listener(JSON.parse(document.getElementById('_msg_response').innerHTML));
+			});
+		}
+		else {
+			window.addEventListener('message', (ev) => listener(ev.data));
+		}
+	},
+
+	postMessage(data) {
+		// console.log('core:postMessage(data, origin)',location.protocol);
+		if (location.protocol === 'file:') {
+			var ev = new Event('lo-message');
+			var msgNode = document.getElementById('_msg_response') || 
+				document.body.appendChild(document.createElement('script'))
+			msgNode.id = '_msg_response';
+            msgNode.type = 'application/json';
+			msgNode.innerHTML = JSON.stringify(data);
+
+			window.dispatchEvent(ev);
+		}
+		else {
+			window.postMessage(data, location.origin);
+		}
+	}
+};
+
 var DILI_PLAYER = 'player.dilidili.tv';
 
 if (location.hostname === DILI_PLAYER || location.protocol === 'file:') {
@@ -23,11 +53,12 @@ if (location.hostname === DILI_PLAYER || location.protocol === 'file:') {
                 return;
             }
 
-            window.addEventListener('message', (ev) => {
-                if (ev.origin !== location.origin && location.origin !== '') return;
-                ev.data && ev.data.requestDanmaku && ev.source.postMessage({
+            console.log('ctrl:location.origin', location.origin);
+            PageAgent.onMessage((msg) => {
+                if (!msg.requestDanmaku) return;
+                PageAgent.postMessage({
                     responseDanmaku: responseText
-                }, location.origin || '*');
+                });
             })
 
             injectScript(chrome.extension.getURL('/content-scripts/bilidili-core.js'), 'body');
