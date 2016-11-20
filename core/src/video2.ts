@@ -10,7 +10,7 @@ import { CkPlayerWrapperMedia } from './skplayer';
 import config from './config';
 
 var PageAgent = {
-	onMessage(listener) {
+	onMessage(listener: Function) {
 		if (location.protocol === 'file:') {
 			window.addEventListener('lo-message', (ev) => {
 				listener(JSON.parse(document.getElementById('_msg_response').innerHTML));
@@ -21,7 +21,7 @@ var PageAgent = {
 		}
 	},
 
-	postMessage(data) {
+	postMessage(data: any) {
 		// console.log('core:postMessage(data, origin)',location.protocol);
 		if (location.protocol === 'file:') {
 			var ev = new Event('lo-message') as any;
