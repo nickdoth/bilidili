@@ -1,6 +1,8 @@
 core/lib
 core/built.js
+core/built-control.js
 crx/content-scripts/bilidili-core.js
+crx/content-scripts/bilidili-control.js
 built.js
 built.user.js
 *.DS_Store
