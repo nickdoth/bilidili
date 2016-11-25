@@ -12,7 +12,7 @@ import PageAgent from './page-agent';
 
 function danmaku(media: Media, text: string) {
 	
-	var lrc = new Lyric(media, BilibiliDanmakuDocument, text);
+	var lrc = new Lyric(media, new BilibiliDanmakuDocument(text), text);
 	var dmv = (<any>window).dmv = config(new DanmakuViewer(media), 'danmakuViewer');
 
 	lrc.addView(dmv);
@@ -67,8 +67,8 @@ function timeout(reject, t, message = '') {
 }
 
 function loadAndPlay() {
-	return Promise.all([ getDanmakuText(), getMedia() ]).then(function(data) {
-		var [resText, media] = data;
+	return Promise.all([ getMedia(), getDanmakuText() ]).then(function(data) {
+		var [media, resText] = data;
 		danmaku(media, resText);
 	})
 }
