@@ -1,17 +1,19 @@
 /// <reference path="../typings/tsd.d.ts" />
-import { Connector } from './rollings/media/connector';
-import { BilibiliDanmakuDocument } from './rollings/danmaku/bilibili';
-import { DanmakuViewer } from './rollings/danmaku/viewer';
-import { Media } from './rollings/media/Media';
-import { HTMLMedia } from './rollings/media/HTMLMedia';
-import { CkPlayerWrapperMedia } from './skplayer';
+import { 
+	connect,
+	BilibiliDanmakuDocument,
+	DanmakuViewer,
+	IMedia,
+	HTMLMedia 
+} from './rollings';
 
+import { CkPlayerWrapperMedia } from './skplayer';
 import config from './config';
 import PageAgent from './page-agent';
 
-function danmaku(media: Media, text: string) {
+function danmaku(media: IMedia, text: string) {
 	
-	var lrc = new Connector(media, new BilibiliDanmakuDocument(text));
+	var lrc = connect(media, new BilibiliDanmakuDocument(text));
 	var dmv = (<any>window).dmv = config(new DanmakuViewer(media), 'danmakuViewer');
 
 	lrc.addView(dmv);
@@ -35,7 +37,7 @@ function getDanmakuText() {
 
 
 function getMedia() {
-	return new Promise<Media>((resolve, reject) => {
+	return new Promise<IMedia>((resolve, reject) => {
 		var inTime = timeout(resolve, 30000);
 		(function waitPlayerReady() {
 			if (typeof CKobject === 'object' && CKobject.getObjectById('ckplayer_a1').addListener) {
