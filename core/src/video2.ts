@@ -1,5 +1,5 @@
 /// <reference path="../typings/tsd.d.ts" />
-import { Lyric } from './music/Lyric';
+import { Connector } from './media/connector';
 import { BilibiliDanmakuDocument } from './danmaku/bilibili';
 import { DanmakuViewer } from './danmaku/viewer';
 import { Media } from './media/Media';
@@ -11,7 +11,7 @@ import PageAgent from './page-agent';
 
 function danmaku(media: Media, text: string) {
 	
-	var lrc = new Lyric(media, new BilibiliDanmakuDocument(text));
+	var lrc = new Connector(media, new BilibiliDanmakuDocument(text));
 	var dmv = (<any>window).dmv = config(new DanmakuViewer(media), 'danmakuViewer');
 
 	lrc.addView(dmv);

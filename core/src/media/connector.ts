@@ -5,7 +5,7 @@ import { EventEmitter } from 'events';
 var silly: typeof console.log = (...args) => console.log.apply(console, args);
 
 // @fires init, update, destroy, lrc_notfound
-export class Lyric extends EventEmitter implements LyricEvents {
+export class Connector extends EventEmitter implements ConnectorEvents {
     public enableCheck = false;
 
     constructor(private media: Media, private lrcDocument: Document<any>) {
@@ -79,7 +79,7 @@ export class Lyric extends EventEmitter implements LyricEvents {
 
 }
 
-export interface LyricEvents {
+export interface ConnectorEvents {
     on(event: 'init', listener: () => any): EventEmitter;
     on(event: 'destroy', listener: () => any): EventEmitter;
     on(event: 'update', listener: (data: string, index?: number[]) => any): EventEmitter;
