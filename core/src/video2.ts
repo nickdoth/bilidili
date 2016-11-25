@@ -11,7 +11,7 @@ import PageAgent from './page-agent';
 
 function danmaku(media: Media, text: string) {
 	
-	var lrc = new Lyric(media, new BilibiliDanmakuDocument(text), text);
+	var lrc = new Lyric(media, new BilibiliDanmakuDocument(text));
 	var dmv = (<any>window).dmv = config(new DanmakuViewer(media), 'danmakuViewer');
 
 	lrc.addView(dmv);
