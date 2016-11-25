@@ -1,5 +1,5 @@
 /// <reference path="../typings/tsd.d.ts" />
-import { Media } from './media/media';
+import { Media } from './rollings/media/media';
 import { EventEmitter } from 'events';
 
 var g = (<any>window);

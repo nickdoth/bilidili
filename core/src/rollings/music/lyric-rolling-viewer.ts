@@ -1,4 +1,4 @@
-import { ILyricViewer, TimeLine } from './Lyric';
+import { ILyricViewer, TimeLine } from '../media/connector';
 import { LrcNode } from './lrc-document';
 
 export class RollingViewer implements ILyricViewer<LrcNode> {

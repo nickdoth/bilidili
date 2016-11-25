@@ -1,4 +1,4 @@
-import { TimeLine, Document } from '../music/Lyric';
+import { TimeLine, Document } from '../media/connector';
 
 /** 弹幕对象 */
 export interface Danmaku {

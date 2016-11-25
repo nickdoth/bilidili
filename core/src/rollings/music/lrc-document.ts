@@ -1,4 +1,4 @@
-import { TimeLine, Document } from './Lyric';
+import { TimeLine, Document } from '../media/connector';
 
 export interface LrcNode {
     time: number[];

@@ -1,9 +1,9 @@
-/// <reference path="../../typings/tsd.d.ts" />
-import { ILyricViewer, TimeLine } from '../music/Lyric';
+/// <reference path="../../../typings/tsd.d.ts" />
+import { ILyricViewer, TimeLine } from '../media/connector';
 import { Danmaku } from './bilibili';
 import { Media } from '../media/media';
 import { EventEmitter } from 'events';
-import styles from '../styles';
+import styles from '../../styles';
 var SILLY = false;
 
 function silly(...args: any[]) {

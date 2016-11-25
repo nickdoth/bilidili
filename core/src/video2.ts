@@ -1,9 +1,9 @@
 /// <reference path="../typings/tsd.d.ts" />
-import { Connector } from './media/connector';
-import { BilibiliDanmakuDocument } from './danmaku/bilibili';
-import { DanmakuViewer } from './danmaku/viewer';
-import { Media } from './media/Media';
-import { HTMLMedia } from './media/HTMLMedia';
+import { Connector } from './rollings/media/connector';
+import { BilibiliDanmakuDocument } from './rollings/danmaku/bilibili';
+import { DanmakuViewer } from './rollings/danmaku/viewer';
+import { Media } from './rollings/media/Media';
+import { HTMLMedia } from './rollings/media/HTMLMedia';
 import { CkPlayerWrapperMedia } from './skplayer';
 
 import config from './config';
