@@ -1,10 +1,10 @@
 #!/bin/bash
 pushd src
-  tsc -t es5  --removeComments --lib es6,dom --outDir ../lib -m commonjs video2.ts control.ts
+  tsc -t es5 --removeComments --lib es6,dom --outDir ../lib -m commonjs core.ts control.ts
 popd
 
 pushd lib
-  browserify video2.js > ../built.js
+  browserify core.js > ../built.js
   browserify control.js > ../built-control.js
 popd
 
