@@ -1,0 +1,19 @@
+{
+  "name": "bilidili",
+  "version": "0.0.6",
+  "description": "Bilidili",
+  "main": "built.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickdoth/bilidili.git"
+  },
+  "author": "nickdoth (nick.doth@gmail.com)",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/nickdoth/bilidili/issues"
+  },
+  "homepage": "https://github.com/nickdoth/bilidili#readme"
+}
