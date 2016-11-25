@@ -1,4 +1,4 @@
-/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../typings/tsd.d.ts" />
 import { Media } from './media/media';
 import { EventEmitter } from 'events';
 
