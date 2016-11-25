@@ -45,7 +45,7 @@ export class Connector extends EventEmitter implements ConnectorEvents {
                 matchStartPoint = matchLines[matchLines.length - 1];
                 this.emit('update', matchLines, timeLine);
                 
-                silly(timeLine[currentLine].data.content);
+                silly(timeLine[currentLine]);
             }
 
             timer = this.enableCheck && setTimeout(checker, 5);
