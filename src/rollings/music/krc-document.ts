@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 
 var xorKey = ['@', 'G', 'a', 'w', '^', '2', 't', 'G', 'Q', '6', '1', '-', 'Î', 'Ò', 'n', 'i'].map(n => n.charCodeAt(0));
 var head = ['k', 'r', 'c', '1'].map(n => n.charCodeAt(0));

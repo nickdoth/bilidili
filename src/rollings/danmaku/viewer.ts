@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 import { ILyricViewer, TimeLine } from '../media/connector';
 import { Danmaku } from './bilibili';
 import { Media } from '../media/media';
