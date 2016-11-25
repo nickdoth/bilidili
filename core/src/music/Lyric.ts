@@ -8,17 +8,17 @@ var silly: typeof console.log = (...args) => console.log.apply(console, args);
 export class Lyric extends EventEmitter implements LyricEvents {
     public enableCheck = false;
 
-    constructor(private media: Media, private lrcDocument: Document<any>, private data: string) {
+    constructor(private media: Media, private lrcDocument: Document<any>) {
         super();
 
         if(!media) {
             throw new Error("Media Element not specified.");
         }
         
-        this.init(data);
+        this.init();
     }
 
-    init(rawData: string) {
+    init() {
         silly('Lyric init');
             
         var lrcDocument = this.lrcDocument;
