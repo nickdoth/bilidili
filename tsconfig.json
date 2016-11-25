@@ -6,12 +6,6 @@
             "es6",
             "dom"
         ],
-        "module": "commonjs",
-        "outDir": "./lib"
-    },
-    
-    "files": [
-        "src/core.ts",
-        "src/control.ts"
-    ]
+        "module": "commonjs"
+    }
 }

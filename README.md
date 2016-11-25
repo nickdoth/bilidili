@@ -7,8 +7,11 @@ If you are interested in this, just read the code and do not advertise.
 ## Build
 
 ```shell
-# Use something like msys2 on Windows...
-./build.sh
+npm install gulp-cli -g
+git clone https://github.com/nickdoth/bilidili
+cd bilidili
+npm install
+gulp crx
 ```
 
 ## Install in Chrome
