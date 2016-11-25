@@ -5,8 +5,7 @@ import { DanmakuViewer } from './danmaku/viewer';
 import { Media } from './media/Media';
 import { HTMLMedia } from './media/HTMLMedia';
 import { CkPlayerWrapperMedia } from './skplayer';
-// import { xml } from './lrc.xml';
-// GM_xmlhttpRequest;
+
 import config from './config';
 import PageAgent from './page-agent';
 
