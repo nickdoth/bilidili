@@ -1,48 +1,33 @@
 /// <reference path="../../typings/tsd.d.ts" />
-/* LRC.js : LRC文件解析 */
-// import { get, ajax } from '../util/request';
-// import { LrcDocument } from './lrc-document';
 import { Media } from '../media/media';
 import { EventEmitter } from 'events';
 
-var log: typeof console.log = (...args) => console.log.apply(console, args);
+var silly: typeof console.log = (...args) => console.log.apply(console, args);
 
 // @fires init, update, destroy, lrc_notfound
 export class Lyric extends EventEmitter implements LyricEvents {
-    enableCheck = false;
-    private lrcDocument: Document<any>;
+    public enableCheck = false;
 
-    constructor(private media: Media, private DocCtor: DocumentCtor, private data: string) {
+    constructor(private media: Media, private lrcDocument: Document<any>, private data: string) {
         super();
+
         if(!media) {
-            throw new Error("Audio Element not specified.");
+            throw new Error("Media Element not specified.");
         }
         
         this.init(data);
-        // audio.once('play', () => this.init());
-        // audio.once('ended', () => this.destroy());
-        
     }
 
-    init(rawData: string, callback?: () => void) {
-        console.log('Lyric init');
-
-        var isLoadTimeouted = false;
-        var loadTimeout = setTimeout(function() {
-            isLoadTimeouted = true;
-            callback && callback();
-        }, 1800);
-        clearTimeout(loadTimeout);
-        !isLoadTimeouted && callback && callback();
+    init(rawData: string) {
+        silly('Lyric init');
             
-        var lrcDocument = this.lrcDocument = new this.DocCtor(rawData);
+        var lrcDocument = this.lrcDocument;
         // var lrcLine = lrcDocument.lrcNodes;
         var timeLine = lrcDocument.getTimeLine();
 
         this.emit('init', timeLine);
 
-        // log("解析数据:", [lrcLine]);
-        log("时间线", [timeLine]);
+        silly('timeLine', [timeLine]);
 
         /*滚动循环体*/
         var currentLine = '';
@@ -53,22 +38,14 @@ export class Lyric extends EventEmitter implements LyricEvents {
         (checker = () => {
             var now = this.media.getCurrentTime();
             var matchLines = timeLine.matchByTime(now, matchStartPoint);
-            // console.log('matchStartPoint', matchStartPoint);
-            
-            // console.log(lrcNode.currentLine, currentLine)
+            silly('matchStartPoint', matchStartPoint);
+
             if(matchLines.toString() !== currentLine) {
-                //document.getElementById("nd-lyric").innerHTML = lrcNode.content 
                 currentLine = matchLines.toString();
                 matchStartPoint = matchLines[matchLines.length - 1];
-                // (function(matches: number[]) {
-                //     requestAnimationFrame(() => {
-                //         this.emit('update', matches, timeLine);
-                //     })
-                // })(matchLines);
-
                 this.emit('update', matchLines, timeLine);
                 
-                // log(timeLine[currentLine].data.content);
+                silly(timeLine[currentLine].data.content);
             }
 
             timer = this.enableCheck && setTimeout(checker, 5);
@@ -146,7 +123,7 @@ function matchByTime(time: number, startPoint = 0): number[] {
             break;
         }
     }
-    // console.log('查找次数', i - startPoint);
+    silly('查找次数', i - startPoint);
     return ret;
 }
 
