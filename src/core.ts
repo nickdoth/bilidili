@@ -1,4 +1,5 @@
 /// <reference path="../typings/index.d.ts" />
+/// <reference path="./skobject.d.ts" />
 import { 
 	connect,
 	BilibiliDanmakuDocument,
@@ -68,7 +69,7 @@ function timeout(reject, t, message = '') {
 }
 
 function loadAndPlay() {
-	return Promise.all([ getMedia(), getDanmakuText() ]).then(function(data) {
+	return Promise.all<IMedia, string>([ getMedia(), getDanmakuText() ]).then(function(data) {
 		var [media, resText] = data;
 		danmaku(media, resText);
 	})

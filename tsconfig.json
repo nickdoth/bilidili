@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "removeComments": true,
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "module": "commonjs",
+        "outDir": "./lib"
+    },
+    
+    "files": [
+        "src/core.ts",
+        "src/control.ts"
+    ]
+}

@@ -1,4 +1,5 @@
 /// <reference path="../typings/index.d.ts" />
+/// <reference path="./skobject.d.ts" />
 import { Media } from './rollings/media/media';
 import { EventEmitter } from 'events';
 

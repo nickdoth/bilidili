@@ -1,7 +1,5 @@
 #!/bin/bash
-pushd src
-  tsc -t es5 --removeComments --lib es6,dom --outDir ../lib -m commonjs core.ts control.ts
-popd
+tsc
 
 pushd lib
   browserify core.js > ../built.js
