@@ -57,6 +57,8 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
     /** */
     public rollingDuration: number; // ms
     /** */
+    public speedUpByWidth = false;
+    /** */
     defaultFontSize = 19 * devicePixelRatio;
     /** */
     public showFps: boolean = false;
@@ -241,14 +243,20 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
                 // p/f = ms/f * p/ms;
                 // n.left -= this.rollingSpeed * mspf; // pixels per frame
                 
-                // experimental: specified speed
-                // if (!(<any>n).rollingSpeed && n.width > 0) {
-                    // (<any>n).rollingSpeed = (document.body.offsetWidth + n.width) /
-                    //     this._rollingDuration;
-                // }
+                if (this.speedUpByWidth) {
+                    // experimental: specified speed
+                    if (!(<any>n).rollingSpeed && n.width > 0) {
+                        (<any>n).rollingSpeed = (document.body.offsetWidth + n.width) /
+                            this.rollingDuration;
+                    }
+                }
 
-
-                n.left -= this.rollingSpeed * mspf; // pixels per frame
+                if (!this.speedUpByWidth) {
+                    n.left -= this.rollingSpeed * mspf; // pixels per frame
+                }
+                else {
+                    n.left -= (<any>n).rollingSpeed * mspf;
+                }
 
                 
                 cd.updateState(n);
