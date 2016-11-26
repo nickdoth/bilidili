@@ -18,7 +18,6 @@ function danmaku(media: IMedia, text: string) {
 	var dmv = (<any>window).dmv = config(new DanmakuViewer(media), 'danmakuViewer');
 
 	lrc.addView(dmv);
-	dmv.init();
 }
 
 function getDanmakuText() {

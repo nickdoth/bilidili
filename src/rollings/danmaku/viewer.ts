@@ -79,6 +79,7 @@ export class DanmakuViewer extends EventEmitter implements ILyricViewer<Danmaku>
         video.on('pause', () => { });
         range(0, this.maxRow - 1).forEach(n => this.rowBlocked[n] = false);
         setInterval(() => this.row = 1, 1700);
+        setTimeout(() => this.mainLoop(), 0);
     }
 
     init() {
