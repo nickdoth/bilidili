@@ -18,7 +18,8 @@ export var stylesheet = {
         'z-index': '1500',
         'top': '5px',
         'right': '5px',
-        'color': '#fff'
+        'color': '#fff',
+        'text-shadow': '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'
     }
 }
 
