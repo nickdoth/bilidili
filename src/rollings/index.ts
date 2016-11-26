@@ -9,3 +9,4 @@ import { Document, Connector } from './media/connector';
 export function connect(media: IMedia, doc: Document<any>) {
     return new Connector(media, doc);
 }
+export var DEBUG = 0;

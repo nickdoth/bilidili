@@ -1,8 +1,9 @@
 /// <reference path="../../../typings/index.d.ts" />
 import { Media } from '../media/media';
 import { EventEmitter } from 'events';
+import { DEBUG } from '..';
 
-var silly: typeof console.log = (...args) => console.log.apply(console, args);
+var silly: typeof console.log = (...args) => DEBUG && console.log.apply(console, args);
 
 // @fires init, update, destroy, lrc_notfound
 export class Connector extends EventEmitter implements ConnectorEvents {
