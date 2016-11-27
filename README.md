@@ -7,10 +7,11 @@ If you are interested in this, just read the code and do not advertise.
 ## Build
 
 ```shell
-npm install gulp-cli -g
+npm install gulp-cli typings -g
 git clone https://github.com/nickdoth/bilidili
 cd bilidili
 npm install
+typings install
 gulp crx
 ```
 
