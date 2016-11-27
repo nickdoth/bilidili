@@ -12,7 +12,7 @@ git clone https://github.com/nickdoth/bilidili
 cd bilidili
 npm install
 typings install
-gulp crx
+gulp all
 ```
 
 ## Install in Chrome

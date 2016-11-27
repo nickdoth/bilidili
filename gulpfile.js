@@ -13,6 +13,7 @@ gulp.task('ts', function() {
 });
 
 gulp.task('crx', ['ts'], function() {
+    console.log('Building crx...');
     return Promise.all([
         gulp.src('./lib/core.js').pipe(webpack({
             output: { filename: 'bilidili-core.js' }
@@ -21,13 +22,16 @@ gulp.task('crx', ['ts'], function() {
             output: { filename: 'bilidili-control.js' }
         })).pipe(gulp.dest('crx/content-scripts'))
     ].map(streamToPromise));
-})
+});
 
 gulp.task('icon', function() {
+    console.log('Generating resources...');
     return Promise.all([
         icon(128), icon(16), icon(19), icon(38)
     ]);
-})
+});
+
+gulp.task('all', ['icon', 'crx'], function() {});
 
 function icon(size) {
     return fs.readFile('./bilidili.svg')
