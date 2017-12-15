@@ -16,7 +16,7 @@
 	"permissions": [
 		"tabs",
 		"http://*.dilidili.com/watch*",
-		"https://player.dilidili.tv:60001/?vid=*",
+		"https://newplayer.dilidili.tv:60001/*",
 		"http://www.bilibilijj.com/*",
 		"file://*/*.mp4",
 		"notifications",

@@ -1,8 +1,9 @@
 import PageAgent from './page-agent';
 
 var silly = PageAgent.silly;
-var cr = (<any>window).chrome;
-var DILI_PLAYER = 'player.dilidili.tv';
+var global = (<any>window);
+var cr = global.chrome;
+var DILI_PLAYER = 'newplayer.dilidili.tv';
 
 if (location.hostname === DILI_PLAYER || location.protocol === 'file:') {
     silly('Getting URL...');
@@ -10,7 +11,13 @@ if (location.hostname === DILI_PLAYER || location.protocol === 'file:') {
         (location.hostname === DILI_PLAYER ? getKeyByVid(location.href) : location.href);
     silly('Using cacheKey:', cacheKey);
     silly(location.protocol);
-
+    
+    history.pushState({}, '', '#');
+    window.onhashchange = () => {
+        if (location.hash === '#editDmUrl') {
+            cr.storage.local.set({ [cacheKey]: prompt('Input URL:') });
+        }
+    }
     cr.storage.local.get(cacheKey, (items) => {
         var url = items[cacheKey] || prompt('Input URL:');
         silly('url: ', url);
@@ -37,7 +44,7 @@ if (location.hostname === DILI_PLAYER || location.protocol === 'file:') {
         
 }
 else if (location.hostname === 'www.dilidili.com') {
-    
+
     var toolbar = document.createElement('div');
     toolbar.innerHTML = Toolbar();
     var sx = document.querySelector('.player_sx');
@@ -58,7 +65,7 @@ function Toolbar(props = { url: '' }) {
             onclick="document.querySelector('#player_iframe').webkitRequestFullscreen()">
             带弹幕全屏
         </p>
-        <p style="float:left; margin-left:5px;">${decodeURIComponent(props.url) || '未加载弹幕。'}</p>
+        <a style="float:left; margin-left:5px;" onclick="document.querySelector('#player_iframe').src+='#editDmUrl'">${decodeURIComponent(props.url) || '未加载弹幕。'}</a>
     </div>
     `;
 }
